@@ -363,6 +363,12 @@ By default, this library requests the user for bluetooth permissions when the ap
 
 ```<preference name="com.unarin.cordova.beacon.android.altbeacon.RequestBtPermission" value="false" />```
 
+#### Enable/Disable scheduled scan jobs
+If scheduled scan jobs are enabled, uses a `ScanJob` run with the `JobScheduler` to perform scans rather than using a long-running `BeaconService` to do so. Calling with true on devices older than Android L 5.0 will not apply the change as the JobScheduler is not available. This value defaults to true on Android O+ and false on devices with older OS versions. Accepting the default value of false is recommended on Android N and earlier because otherwise beacon scans may be run only once every 15 minutes in the background, and no low power scans may be performed between scanning cycles. Setting this value to false will disable ScanJobs when the app is run on Android 8+, which can prohibit delivery of callbacks when the app is in the background unless the scanning process is running in a foreground service. To override the defaults, set the following preference in your `config.xml` file.
+See (AltBeacon docs)[https://altbeacon.github.io/android-beacon-library/javadoc/org/altbeacon/beacon/BeaconManager.html] for more info.
+
+```<preference name="com.unarin.cordova.beacon.android.altbeacon.EnableScheduledScanJobs" value="false" />```
+
 
 ## Contributions
 
