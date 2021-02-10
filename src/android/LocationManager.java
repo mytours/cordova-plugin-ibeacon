@@ -87,7 +87,7 @@ public class LocationManager extends CordovaPlugin implements BeaconConsumer {
     private static final String REQUEST_BT_PERMISSION_NAME = "com.unarin.cordova.beacon.android.altbeacon.RequestBtPermission";
     private static final boolean DEFAULT_REQUEST_BT_PERMISSION = true;
     private static final String ENABLE_SCHEDULED_SCAN_JOBS_NAME = "com.unarin.cordova.beacon.android.altbeacon.EnableScheduledScanJobs";
-    private static final Boolean DEFAULT_ENABLE_SCHEDULED_SCAN_JOBS = null;
+    private static final boolean DEFAULT_ENABLE_SCHEDULED_SCAN_JOBS = true;
     private static final int DEFAULT_FOREGROUND_SCAN_PERIOD = 1100;
     private static int CDV_LOCATION_MANAGER_DOM_DELEGATE_TIMEOUT = 30;
     private static final int BUILD_VERSION_CODES_M = 23;
@@ -132,17 +132,17 @@ public class LocationManager extends CordovaPlugin implements BeaconConsumer {
         Log.i(TAG, "Determined config value FOREGROUND_SCAN_PERIOD: " +
                 String.valueOf(foregroundScanPeriod));
 
-        final Boolean enabledScheduledScanJobs = this.preferences.getBoolean(
+        final boolean enableScheduledScanJobs = this.preferences.getBoolean(
                 ENABLE_SCHEDULED_SCAN_JOBS_NAME, DEFAULT_ENABLE_SCHEDULED_SCAN_JOBS);
 
         Log.i(TAG, "Determined config value ENABLE_SCHEDULED_SCAN_JOBS: " +
-                String.valueOf(enabledScheduledScanJobs));
+                String.valueOf(enableScheduledScanJobs));
 
         iBeaconManager = BeaconManager.getInstanceForApplication(cordovaActivity);
         iBeaconManager.setForegroundBetweenScanPeriod(foregroundBetweenScanPeriod);
         iBeaconManager.setForegroundScanPeriod(foregroundScanPeriod);
-        if (enabledScheduledScanJobs != null) {
-            iBeaconManager.setEnableScheduledScanJobs(enabledScheduledScanJobs);
+        if (enableScheduledScanJobs == false) {
+            iBeaconManager.setEnableScheduledScanJobs(enableScheduledScanJobs);
         }
 
         final int sampleExpirationMilliseconds = this.preferences.getInteger(
